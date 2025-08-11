@@ -43,11 +43,11 @@ csv_path = os.path.join(script_dir, "toy_data.csv")
 """
 Create an Experiment object to manage NS3-Python WiFi simulation communication:
 - "ns3ai_wifi_simulation": The name of our compiled WiFi simulation example
-- "../../../../../": Working directory relative to examples directory
+- ".": Working directory relative to examples directory
 - py_binding: Our compiled Python binding module for WiFi data structures
 - handleFinish=True: Automatically handle simulation finish signals
 """
-exp = Experiment("ns3ai_wifi_simulation", "../../../../../", py_binding, handleFinish=True)
+exp = Experiment("ns3ai_wifi_simulation", ".", py_binding, handleFinish=True)
 print("python: Calling the NS3 WiFi simulation script")
 
 # Start the NS3 WiFi simulation and get the message interface
