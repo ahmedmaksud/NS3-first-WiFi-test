@@ -144,13 +144,15 @@ echo "Build successful!"
 echo ""
 echo "Step 3: Running the WiFi simulation..."
 echo "====================================="
-
+    cd "$EXAMPLE_DIR"
+    python3 wifi_analysis_and_control.py
+    cd ../../../..
 # Navigate to the deployed WiFi example directory
 EXAMPLE_DIR="contrib/ai/examples/wifi-simulation"
 
 # Verify the example was deployed correctly
 if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; then
-    echo "Running the WiFi simulation example..."
+    # Execute the Python script from wifi-simulation directory (script modified to find NS3 root)
     
     # Execute the Python script from NS3 root directory (where ./ns3 command works)
     # This will:
@@ -159,7 +161,9 @@ if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; 
     # 3. Process WiFi network performance data
     # 4. Apply adaptive control algorithms
     # 5. Export data for visualization and analysis
-    PYTHONPATH="$EXAMPLE_DIR:$PYTHONPATH" python3 "$EXAMPLE_DIR/wifi_analysis_and_control.py"
+    cd "$EXAMPLE_DIR"
+    python3 wifi_analysis_and_control.py
+    cd ../../../..
     
     # Check if simulation completed and data was generated
     if [ -f "$EXAMPLE_DIR/toy_data.csv" ]; then

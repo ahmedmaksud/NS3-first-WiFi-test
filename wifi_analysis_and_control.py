@@ -47,7 +47,7 @@ Create an Experiment object to manage NS3-Python WiFi simulation communication:
 - py_binding: Our compiled Python binding module for WiFi data structures
 - handleFinish=True: Automatically handle simulation finish signals
 """
-exp = Experiment("ns3ai_wifi_simulation", ".", py_binding, handleFinish=True)
+exp = Experiment("ns3ai_wifi_simulation", "../../../../", py_binding, handleFinish=True)
 print("python: Calling the NS3 WiFi simulation script")
 
 # Start the NS3 WiFi simulation and get the message interface
