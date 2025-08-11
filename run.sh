@@ -144,33 +144,31 @@ echo "Build successful!"
 echo ""
 echo "Step 3: Running the WiFi simulation..."
 echo "====================================="
-    cd "$EXAMPLE_DIR"
-    python3 wifi_analysis_and_control.py
-    cd ../../../..
+
 # Navigate to the deployed WiFi example directory
 EXAMPLE_DIR="contrib/ai/examples/wifi-simulation"
 
 # Verify the example was deployed correctly
 if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; then
-    # Execute the Python script from wifi-simulation directory (script modified to find NS3 root)
+    echo "Changing to WiFi simulation example directory..."
+    cd "$EXAMPLE_DIR"
     
-    # Execute the Python script from NS3 root directory (where ./ns3 command works)
+    # Execute the Python script from the example directory
     # This will:
     # 1. Start the NS3 WiFi C++ simulation in the background
     # 2. Establish shared memory communication for real-time data exchange
     # 3. Process WiFi network performance data
     # 4. Apply adaptive control algorithms
     # 5. Export data for visualization and analysis
-    cd "$EXAMPLE_DIR"
+    echo "Starting WiFi simulation..."
     python3 wifi_analysis_and_control.py
-    cd ../../../..
     
     # Check if simulation completed and data was generated
-    if [ -f "$EXAMPLE_DIR/toy_data.csv" ]; then
+    if [ -f "toy_data.csv" ]; then
         echo ""
         echo "WiFi simulation completed successfully!"
-        echo "Data exported to $EXAMPLE_DIR/toy_data.csv"
-        echo "Data points collected: $(wc -l < $EXAMPLE_DIR/toy_data.csv)"
+        echo "Data exported to toy_data.csv"
+        echo "Data points collected: $(wc -l < toy_data.csv)"
         
         # Optional: Run visualization if requested
         echo ""
@@ -178,16 +176,17 @@ if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; 
         read -r response
         if [[ "$response" =~ ^[Yy]$ ]]; then
             echo "Generating WiFi network visualization..."
-            cd "$EXAMPLE_DIR"
             python3 wifi_network_visualization.py
             if [ -f "sta_animation.gif" ]; then
-                echo "Animation saved as $EXAMPLE_DIR/sta_animation.gif"
+                echo "Animation saved as sta_animation.gif"
             fi
-            cd ../../../..
         fi
     else
         echo "Warning: No simulation data file found. Check simulation logs for issues."
     fi
+    
+    # Return to NS3 root directory
+    cd ../../../..
 else
     echo "WiFi simulation example not found at $EXAMPLE_DIR"
     echo "Please ensure the WiFi files are properly deployed."
@@ -206,7 +205,7 @@ echo "- 8 mobile WiFi stations simulated with adaptive control"
 echo "- Network performance data collected and analyzed"
 echo "- Data exported for visualization and further analysis"
 echo ""
-echo "Files generated in $EXAMPLE_DIR:"
+echo "Files generated in contrib/ai/examples/wifi-simulation/:"
 echo "- toy_data.csv: Complete WiFi network performance dataset"
 echo "- sta_animation.gif: Network topology animation (if generated)"
 echo ""
