@@ -53,6 +53,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
 # Standard libraries for file operations and system utilities
 import os
