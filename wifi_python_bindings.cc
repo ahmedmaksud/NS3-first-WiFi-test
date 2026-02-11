@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Huazhong University of Science and Technology
+ * Copyright (c) 2025 Texas State University
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -14,12 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors:  Muyuan Shen <muyuan_shen@hust.edu.cn>
- *           Enhanced for WiFi Network Simulation
+ * Author: Ahmed Maksud <ahmed.maksud@email.ucr.edu>
+ * PI: Marcelo Menezes De Carvalho <mmcarvalho@txstate.edu>
+ * Texas State University
  */
 
 /**
- * @file toy_py.cc
+ * @file wifi_python_bindings.cc
  * @brief Python bindings for WiFi Network Simulation
  * 
  * This file creates Python bindings using pybind11 to enable communication

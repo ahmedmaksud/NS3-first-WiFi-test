@@ -1,14 +1,26 @@
 # WiFi Network Simulation with NS3-AI
 
-This repository contains a WiFi network simulation example that demonstrates real-time communication between NS3 C++ simulation and Python analysis using the NS3-AI framework.
+**Author:** Ahmed Maksud (ahmed.maksud@email.ucr.edu)  
+**PI:** Marcelo Menezes De Carvalho (mmcarvalho@txstate.edu)  
+**Institution:** Texas State University
+
+A WiFi network simulation example demonstrating real-time communication between NS3 C++ simulation and Python analysis using the NS3-AI framework.
+
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![NS3 Version](https://img.shields.io/badge/NS3-3.44-blue.svg)](https://www.nsnam.org/)
+[![Python](https://img.shields.io/badge/Python-3.11-green.svg)](https://www.python.org/)
+
+*For NS3-AI integration details, check [NS3-AI GitHub](https://github.com/hust-diangroup/ns3-ai)*
+
+> **Important**: This project requires the [NS3-NS3AI installation repository](https://github.com/ahmedmaksud/NS3-NS3AI--installation-and-tests.git) to be completed first. Both projects must be located in the same NS3-project directory structure.
 
 ## Overview
 
 This example simulates a WiFi network with:
-- **8 mobile stations** moving in random patterns within a 100m x 100m area
+- **8 mobile stations** moving in random patterns
 - **1 access point** at the center with adaptive transmission control
 - **Real-time C++/Python communication** for network analysis via shared memory
-- **Adaptive algorithms** for transmission power optimization (20-30 dBm range)
+- **Adaptive algorithms** for transmission power optimization
 - **Data export** for visualization and post-analysis (CSV format)
 - **Network performance monitoring** with uplink/downlink throughput tracking
 
@@ -54,7 +66,7 @@ The script will automatically:
 - **8 mobile WiFi stations** with random walk mobility (0.05 m/s speed)
 - **802.11n WiFi standard** with HtMcs1 data rate and HtMcs0 control rate
 - **Access Point** at coordinates (0,0,0) with fixed position
-- **Bidirectional traffic** (UDP): AP→STAs (downlink) and STAs→AP (uplink)
+- **Bidirectional traffic** (UDP): AP→STAs (downlink, disabled here) and STAs→AP (uplink)
 - **Path loss models**: Log-distance + Nakagami fading
 
 ### Real-time AI Integration
@@ -62,7 +74,6 @@ The script will automatically:
 - **250ms reporting interval** for real-time network monitoring
 - **Adaptive transmission power control** based on network conditions
 - **Distance-based performance analysis** with throughput optimization
-- **Python-based ML algorithms** for network parameter adaptation
 
 ### Data Collection & Analysis
 - **Comprehensive metrics**: Position, distance, throughput, transmission power
@@ -112,16 +123,6 @@ After successful execution, the following files are generated:
 
 ### Visualization Files (Optional)
 - **`sta_animation.gif`**: Network topology animation showing station movement
-- **`network_performance.png`**: Throughput vs. distance analysis plots
-
-## Performance Metrics
-
-Typical simulation results:
-- **Simulation Duration**: 50 seconds
-- **Data Points Collected**: ~1,600 entries
-- **Average Throughput**: DL=0.05-0.1 Mbps, UL=1.5-2.5 Mbps
-- **Distance Range**: 0.03m - 2.2m (stations move within bounds)
-- **Adaptive Power Range**: 20-30 dBm (based on network conditions)
 
 ## Troubleshooting
 
@@ -155,17 +156,21 @@ Typical simulation results:
 For debugging, run components separately:
 
 ```bash
-# 1. Deploy files
-cp *.cc *.h *.py ../ns-allinone-3.44/ns-3.44/contrib/ai/examples/wifi-simulation/
+# 1. Create destination and deploy files
+mkdir -p ../ns-allinone-3.44/ns-3.44/contrib/ai/examples/wifi-simulation/
+cp *.cc *.h *.py CMakeLists.txt ../ns-allinone-3.44/ns-3.44/contrib/ai/examples/wifi-simulation/
 
-# 2. Build manually
+# 2. Update parent CMakeLists.txt (only needed once)
+echo "add_subdirectory(wifi-simulation)" >> ../ns-allinone-3.44/ns-3.44/contrib/ai/examples/CMakeLists.txt
+
+# 3. Build manually
 cd ../ns-allinone-3.44/ns-3.44
 ./ns3 build ns3ai_wifi_simulation
 
-# 3. Run C++ simulation only
+# 4. Run C++ simulation only
 ./ns3 run ns3ai_wifi_simulation
 
-# 4. Run Python analysis (in separate terminal)
+# 5. Run Python analysis (in separate terminal)
 python contrib/ai/examples/wifi-simulation/wifi_analysis_and_control.py
 ```
 
@@ -198,11 +203,11 @@ Use `wifi_network_visualization.py` as a starting point for:
 If you use this simulation in your research, please cite:
 
 ```bibtex
-@software{ns3_wifi_ai_simulation,
+@software{maksud2025wifi_ns3ai,
   title={WiFi Network Simulation with NS3-AI},
-  author={NS3-AI WiFi Simulation Project},
+  author={Maksud, Ahmed},
   year={2025},
-  url={https://github.com/your-repo/NS3-first-WiFi-test}
+  url={https://github.com/ahmedmaksud/NS3-first-WiFi-test}
 }
 ```
 
@@ -368,6 +373,6 @@ This example serves as a reference implementation for:
 
 ---
 
-*Last Updated: August 11, 2025*
+*Last Updated: February 10, 2026*
 *Architecture Version: 3.0*
 *Simulation Validated: ✅*

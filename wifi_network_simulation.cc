@@ -1,27 +1,40 @@
 /*
- * WiFi Network Simulation with NS3-AI Integration
- * 
- * Enhanced NS3 WiFi simulation demonstrating:
+ * Copyright (c) 2025 Texas State University
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Ahmed Maksud <ahmed.maksud@email.ucr.edu>
+ * PI: Marcelo Menezes De Carvalho <mmcarvalho@txstate.edu>
+ * Texas State University
+ */
+
+/**
+ * @file wifi_network_simulation.cc
+ * @brief WiFi Network Simulation with NS3-AI Integration
+ *
+ * This simulation demonstrates NS3-Python communication using the AI module:
  * - Real-time C++ to Python communication via shared memory
  * - Adaptive WiFi parameter control based on AI/ML analysis
  * - Mobile station movement with performance monitoring
  * - Network topology analysis and visualization support
- * 
- * This simulation creates a WiFi network with mobile stations and measures:
- * - Station positions and movement patterns
- * - Network throughput (uplink/downlink)
- * - Distance-based performance analysis
- * - Adaptive transmission power control
- * 
+ *
  * Communication Flow:
  * 1. C++ simulation generates WiFi network data
  * 2. Data sent to Python via NS3-AI shared memory
  * 3. Python performs analysis and calculates adaptations
  * 4. Python sends control commands back to C++
  * 5. C++ applies adaptations to WiFi parameters
- * 
- * Based on original work by Piotr Gawlowicz <gawlowicz.p@gmail.com>
- * Enhanced for comprehensive WiFi network simulation and AI integration
  */
 
 // === NS3 CORE MODULES AND WIFI DATA STRUCTURES ===

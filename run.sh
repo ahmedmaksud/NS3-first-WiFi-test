@@ -1,5 +1,9 @@
 #!/bin/bash
-
+#
+# Author: Ahmed Maksud; email: ahmed.maksud@email.ucr.edu
+# PI: Marcelo Menezes De Carvalho; email: mmcarvalho@txstate.edu
+# Texas State University
+#
 # WiFi Network Simulation Example - Single Run Script
 # ===================================================
 # This script automates the complete workflow for running the WiFi NS3-AI example:

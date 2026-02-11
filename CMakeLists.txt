@@ -1,5 +1,11 @@
 # CMakeLists.txt for WiFi Network Simulation with NS3-AI Integration
 #
+# Copyright (c) 2025 Texas State University
+#
+# Author: Ahmed Maksud <ahmed.maksud@email.ucr.edu>
+# PI: Marcelo Menezes De Carvalho <mmcarvalho@txstate.edu>
+# Texas State University
+#
 # This CMake configuration builds:
 # 1. C++ WiFi simulation executable with NS3-AI communication
 # 2. Python binding library for real-time data exchange
