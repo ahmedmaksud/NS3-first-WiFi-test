@@ -37,12 +37,15 @@ Key Features:
 
 # Data analysis and processing libraries
 import pandas as pd
+
 # Import the compiled Python binding module (created from wifi_python_bindings.cc)
 import ns3ai_wifi_py as py_binding
+
 # Standard library imports for system operations and error handling
 import sys
 import traceback
 import os
+
 # Import NS3-AI utilities for experiment management
 from ns3ai_utils import Experiment
 
@@ -80,24 +83,24 @@ Initialize data structures for network performance analysis:
 - current_dl_values: Buffer for current downlink throughput values
 - prev_mean_dl: Previous mean downlink throughput for comparison
 """
-data_store = []              # Master data collection list
-prev_now_sec = -1.0         # Previous simulation timestamp
-current_dl_values = []      # Current downlink throughput buffer
-prev_mean_dl = None         # Previous mean downlink for adaptive control
+data_store = []  # Master data collection list
+prev_now_sec = -1.0  # Previous simulation timestamp
+current_dl_values = []  # Current downlink throughput buffer
+prev_mean_dl = None  # Previous mean downlink for adaptive control
 
 # === MAIN COMMUNICATION AND ANALYSIS LOOP ===
 try:
     while True:
         print("python: Starting WiFi data reception...")
-        
+
         # === RECEIVE PHASE: Get WiFi network data from C++ ===
         msgInterface.PyRecvBegin()  # Lock shared memory and wait for C++ data
-        
+
         # Check if WiFi simulation has finished
         print("python: WiFi simulation status:", msgInterface.PyGetFinished())
         if msgInterface.PyGetFinished():
             break  # Exit loop when C++ simulation is complete
-        
+
         # === READ WIFI NETWORK DATA ===
         """
         Extract current WiFi network state from shared memory:
@@ -108,18 +111,18 @@ try:
         - Station ID and simulation timestamp
         """
         wifi_data = msgInterface.GetCpp2PyStruct()
-        
+
         # Extract individual WiFi network parameters
-        pos_x = wifi_data.pos_x          # Station X position (meters)
-        pos_y = wifi_data.pos_y          # Station Y position (meters)
-        distance = wifi_data.distance    # Distance to AP (meters)
-        dl_tp = wifi_data.dl_tp         # Downlink throughput (Mbps)
-        ul_tp = wifi_data.ul_tp         # Uplink throughput (Mbps)
-        get_ApTx = wifi_data.get_ApTx   # Current AP transmission parameter
-        sta_id = wifi_data.sta_id       # Station identifier
-        now_sec = wifi_data.now_sec     # Current simulation time
-        
-        msgInterface.PyRecvEnd()    # Unlock shared memory, signal C++ we're done reading
+        pos_x = wifi_data.pos_x  # Station X position (meters)
+        pos_y = wifi_data.pos_y  # Station Y position (meters)
+        distance = wifi_data.distance  # Distance to AP (meters)
+        dl_tp = wifi_data.dl_tp  # Downlink throughput (Mbps)
+        ul_tp = wifi_data.ul_tp  # Uplink throughput (Mbps)
+        get_ApTx = wifi_data.get_ApTx  # Current AP transmission parameter
+        sta_id = wifi_data.sta_id  # Station identifier
+        now_sec = wifi_data.now_sec  # Current simulation time
+
+        msgInterface.PyRecvEnd()  # Unlock shared memory, signal C++ we're done reading
         print("python: WiFi data received successfully.")
 
         # === DATA PROCESSING AND ANALYSIS ===
@@ -129,7 +132,7 @@ try:
         - Calculate network performance statistics
         - Implement adaptive transmission control algorithms
         """
-        
+
         # === ADAPTIVE CONTROL ALGORITHM ===
         """
         Implement adaptive transmission control based on network performance:
@@ -138,24 +141,24 @@ try:
         - Adjust AP transmission parameters for optimization
         - Example: reduce power when throughput is high (less interference)
         """
-        
+
         # Initialize control parameter with current value
         set_ApTx = 20.0  # Default transmission power (dBm)
-        
+
         # Time-based analysis for adaptive control
         if now_sec != prev_now_sec:
             # Calculate mean DL throughput for previous timestamp period
             if current_dl_values:
                 prev_mean_dl = sum(current_dl_values) / len(current_dl_values)
                 print(f"python: Mean DL @ {prev_now_sec:.2f}s: {prev_mean_dl:.2f} Mbps")
-            
+
             # Reset for new timestamp period
             prev_now_sec = now_sec
             current_dl_values = []
-        
+
         # Accumulate current measurement
         current_dl_values.append(dl_tp)
-        
+
         # Adaptive transmission power control based on historical performance
         if prev_mean_dl is not None:
             # Example adaptive algorithm:
@@ -163,7 +166,7 @@ try:
             # Lower throughput -> maintain/increase power
             set_ApTx = max(1.0, min(30.0, 30.0 - 30.0 * prev_mean_dl / 100.0))
             print(f"python: Adaptive control - ApTx set to: {set_ApTx:.2f} dBm")
-        
+
         # === COMPREHENSIVE DATA LOGGING ===
         print(
             f"python: WiFi Status - "
@@ -194,11 +197,11 @@ try:
         # === SEND PHASE: Return control commands to C++ ===
         print("python: Sending adaptive control commands...")
         msgInterface.PySendBegin()  # Lock shared memory for writing control commands
-        
+
         # Write the calculated control parameters to shared memory
         msgInterface.GetPy2CppStruct().set_ApTx = set_ApTx
-        
-        msgInterface.PySendEnd()    # Unlock shared memory, signal C++ that commands are ready
+
+        msgInterface.PySendEnd()  # Unlock shared memory, signal C++ that commands are ready
         print("python: Control commands sent successfully.")
 
 # === ERROR HANDLING ===
@@ -213,14 +216,14 @@ except Exception as e:
     print("python: Exception occurred in WiFi simulation: {}".format(e))
     print("python: Traceback:")
     traceback.print_tb(exc_traceback)
-    
+
     # Save collected data even if error occurs
     if data_store:
         print("python: Saving collected WiFi data before exit...")
         df = pd.DataFrame(data_store)
         df.to_csv(csv_path, index=False)
         print(f"python: WiFi data saved to {csv_path}")
-    
+
     exit(1)
 
 # === NORMAL COMPLETION ===
@@ -243,22 +246,28 @@ finally:
     - Provides final status and statistics
     """
     print("python: Cleaning up WiFi simulation resources...")
-    
+
     # Export collected data to CSV for analysis and visualization
     if data_store:
         df = pd.DataFrame(data_store)
         df.to_csv(csv_path, index=False)
         print(f"python: WiFi network data exported to {csv_path}")
         print(f"python: Total data points collected: {len(data_store)}")
-        
+
         # Provide summary statistics if data was collected
         if len(data_store) > 0:
-            print(f"python: Simulation duration: {max(df['now_sec']) - min(df['now_sec']):.2f} seconds")
-            print(f"python: Average throughput: DL={df['dl_tp'].mean():.2f} Mbps, UL={df['ul_tp'].mean():.2f} Mbps")
-            print(f"python: Distance range: {df['distance'].min():.2f}m - {df['distance'].max():.2f}m")
+            print(
+                f"python: Simulation duration: {max(df['now_sec']) - min(df['now_sec']):.2f} seconds"
+            )
+            print(
+                f"python: Average throughput: DL={df['dl_tp'].mean():.2f} Mbps, UL={df['ul_tp'].mean():.2f} Mbps"
+            )
+            print(
+                f"python: Distance range: {df['distance'].min():.2f}m - {df['distance'].max():.2f}m"
+            )
     else:
         print("python: No data collected during simulation.")
-    
+
     # Clean up experiment object and shared memory
     del exp
     print("python: WiFi Network Simulation - Python Analysis Completed")

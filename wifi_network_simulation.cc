@@ -38,11 +38,11 @@
  */
 
 // === NS3 CORE MODULES AND WIFI DATA STRUCTURES ===
-#include "wifi_data_structures.h"  // WiFi data structures for C++/Python communication
+#include "wifi_data_structures.h" // WiFi data structures for C++/Python communication
 
 // === NS3 SIMULATION FRAMEWORK ===
 // Core NS3 modules for network simulation, mobility, and traffic
-#include "ns3/applications-module.h"    // Traffic generation applications
+#include "ns3/applications-module.h"   // Traffic generation applications
 #include "ns3/core-module.h"           // Core NS3 functionality and utilities
 #include "ns3/internet-module.h"       // TCP/IP stack implementation
 #include "ns3/mobility-module.h"       // Node movement and positioning
@@ -52,7 +52,7 @@
 #include "ns3/flow-monitor-module.h"   // Network flow monitoring
 
 // === NS3-AI INTEGRATION ===
-#include "ns3/ai-module.h"              // NS3-AI communication framework
+#include "ns3/ai-module.h" // NS3-AI communication framework
 
 // === STANDARD C++ LIBRARIES ===
 #include <chrono>
@@ -71,7 +71,7 @@ using namespace ns3;
  * - AI integration: Real-time parameter adaptation
  */
 uint32_t g_nStas = 8;         // Number of station nodes (STAs) in WiFi network
-double g_init_distance = 0.5; // Initial distance from AP to each STA (meters)
+double g_init_distance = 1.5; // Initial distance from AP to each STA (meters)
 double g_totalTime = 50.0;    // Total simulation time (seconds)
 double g_interval = 0.25;     // Reporting interval for Python communication (seconds)
 
@@ -101,7 +101,7 @@ NetDeviceContainer staDevices;                 // Station network devices
  * - ActStruct: Control actions received from Python
  * - Real-time shared memory communication
  */
-Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct>* msgInterface; // AI message interface
+Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct> *msgInterface; // AI message interface
 
 // === NETWORK LAYER INTERFACES ===
 /*
@@ -109,8 +109,8 @@ Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct>* msgInterface; // AI message interfa
  * - Separate interfaces for AP and stations
  * - Enables bidirectional traffic flow measurement
  */
-Ipv4InterfaceContainer g_apIf;                             // IPv4 interface for AP
-Ipv4InterfaceContainer g_staIf;                            // IPv4 interfaces for stations
+Ipv4InterfaceContainer g_apIf;  // IPv4 interface for AP
+Ipv4InterfaceContainer g_staIf; // IPv4 interfaces for stations
 
 // === PERFORMANCE MONITORING AND PHY LAYER ===
 /*
@@ -119,14 +119,14 @@ Ipv4InterfaceContainer g_staIf;                            // IPv4 interfaces fo
  * - PHY layer access for transmission parameter control
  * - Real-time throughput measurement
  */
-std::vector<uint32_t> g_staPhyRxDrops;                     // Per-STA PHY RX drop counter
-uint32_t g_apPhyRxDrops = 0;                               // AP PHY RX drop counter
-std::vector<Ptr<YansWifiPhy>> g_staPhys;                   // PHY pointers for stations
-Ptr<YansWifiPhy> g_apPhy;                                  // PHY pointer for AP
+std::vector<uint32_t> g_staPhyRxDrops;   // Per-STA PHY RX drop counter
+uint32_t g_apPhyRxDrops = 0;             // AP PHY RX drop counter
+std::vector<Ptr<YansWifiPhy>> g_staPhys; // PHY pointers for stations
+Ptr<YansWifiPhy> g_apPhy;                // PHY pointer for AP
 
 // Exchanges information with Python AI via the message interface and returns the new AP Tx power
 double
-LetsTalk(Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct>* msgInterface,
+LetsTalk(Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct> *msgInterface,
          double pos_x,
          double pos_y,
          double distance,
@@ -140,7 +140,7 @@ LetsTalk(Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct>* msgInterface,
     msgInterface->CppSendBegin();
 
     // Populate the shared struct with environment information
-    EnvStruct* env = msgInterface->GetCpp2PyStruct();
+    EnvStruct *env = msgInterface->GetCpp2PyStruct();
     env->env_pos_x = pos_x;
     env->env_pos_y = pos_y;
     env->env_distance = distance;
@@ -169,7 +169,7 @@ LetsTalk(Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct>* msgInterface,
 }
 
 // Initializes the AI message interface for communication with Python
-Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct>*
+Ns3AiMsgInterfaceImpl<EnvStruct, ActStruct> *
 InitializeNs3AiInterface()
 {
     std::cout << "C++;InitializeNs3AiInterface: Initializing the interface.\n";
@@ -183,8 +183,7 @@ InitializeNs3AiInterface()
 
 // Reports throughput, distance, and energy for each STA and AP, and interacts with AI for AP Tx
 // power
-void
-GetReport(Time interval)
+void GetReport(Time interval)
 {
     if (!g_apPhy)
     {
@@ -287,8 +286,7 @@ GetReport(Time interval)
 }
 
 // Sets up the WiFi scenario: nodes, devices, mobility, IP, UDP apps
-void
-InitializeScenario()
+void InitializeScenario()
 {
     using namespace ns3::energy;
     std::cout << "C++;InitializeScenario: Initializing the scenario.\n";
@@ -453,8 +451,7 @@ InitializeScenario()
 }
 
 // Main function: entry point for the simulation
-int
-main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     // Initialize the AI message interface for communication with Python
     msgInterface = InitializeNs3AiInterface();
