@@ -27,7 +27,7 @@ This example simulates a WiFi network with:
 ## Prerequisites
 
 1. **NS3 Installation**: NS3.44 with NS3-AI module installed and configured
-2. **Python Environment**: Virtual environment (EHRL) with required packages:
+2. **Python Environment**: Virtual environment (e.g., `EHRL`, as specified in `venv_name.txt`) with required packages:
    - pandas, matplotlib, numpy, ns3ai-utils, pybind11
 3. **Directory Structure**: Must be placed alongside NS3 installation
 
@@ -35,7 +35,7 @@ Expected directory structure:
 ```
 NS3-project/
 ├── NS3-first-WiFi-test/       # This repository (you are here)
-├── EHRL/                      # Python virtual environment
+├── <venv_name>/               # Python virtual environment (e.g., EHRL)
 └── ns-allinone-3.44/
     └── ns-3.44/               # NS3 installation with AI module
 ```
@@ -47,7 +47,8 @@ NS3-project/
 cd /path/to/NS3-project/NS3-first-WiFi-test
 
 # Activate virtual environment (automatically done by run.sh)
-source ../EHRL/bin/activate
+# The venv name is read from venv_name.txt (e.g., EHRL)
+source ../<venv_name>/bin/activate
 
 # Run the complete simulation
 ./run.sh
@@ -130,7 +131,8 @@ After successful execution, the following files are generated:
 
 1. **Virtual Environment Not Found**
    ```bash
-   source ../EHRL/bin/activate
+   # Replace <venv_name> with the name in venv_name.txt (e.g., EHRL)
+   source ../<venv_name>/bin/activate
    pip install pandas matplotlib numpy ns3ai-utils
    ```
 
