@@ -10,13 +10,14 @@ A WiFi network simulation example demonstrating real-time communication between 
 [![NS3 Version](https://img.shields.io/badge/NS3-3.44-blue.svg)](https://www.nsnam.org/)
 [![Python](https://img.shields.io/badge/Python-3.11-green.svg)](https://www.python.org/)
 
-*For NS3-AI integration details, check [NS3-AI GitHub](https://github.com/hust-diangroup/ns3-ai)*
+_For NS3-AI integration details, check [NS3-AI GitHub](https://github.com/hust-diangroup/ns3-ai)_
 
 > **Important**: This project requires the [NS3-NS3AI installation repository](https://github.com/ahmedmaksud/NS3-NS3AI--installation-and-tests.git) to be completed first. Both projects must be located in the same NS3-project directory structure.
 
 ## Overview
 
 This example simulates a WiFi network with:
+
 - **8 mobile stations** moving in random patterns
 - **1 access point** at the center with adaptive transmission control
 - **Real-time C++/Python communication** for network analysis via shared memory
@@ -28,10 +29,11 @@ This example simulates a WiFi network with:
 
 1. **NS3 Installation**: NS3.44 with NS3-AI module installed and configured
 2. **Python Environment**: Virtual environment (e.g., `EHRL`, as specified in `venv_name.txt`) with required packages:
-   - pandas, matplotlib, numpy, ns3ai-utils, pybind11
+   - pandas, matplotlib, numpy, tqdm, ns3ai-utils (installed via NS3-AI setup)
 3. **Directory Structure**: Must be placed alongside NS3 installation
 
 Expected directory structure:
+
 ```
 NS3-project/
 ├── NS3-first-WiFi-test/       # This repository (you are here)
@@ -55,6 +57,7 @@ source ../<venv_name>/bin/activate
 ```
 
 The script will automatically:
+
 1. **Deploy files** to NS3 examples directory (`contrib/ai/examples/wifi-simulation/`)
 2. **Configure and build** the simulation using NS3's CMake system
 3. **Execute** the WiFi network simulation with real-time C++/Python communication
@@ -64,6 +67,7 @@ The script will automatically:
 ## Features
 
 ### Core Simulation
+
 - **8 mobile WiFi stations** with random walk mobility (0.05 m/s speed)
 - **802.11n WiFi standard** with HtMcs1 data rate and HtMcs0 control rate
 - **Access Point** at coordinates (0,0,0) with fixed position
@@ -71,14 +75,16 @@ The script will automatically:
 - **Path loss models**: Log-distance + Nakagami fading
 
 ### Real-time AI Integration
+
 - **Shared memory communication** between C++ simulation and Python analysis
 - **250ms reporting interval** for real-time network monitoring
 - **Adaptive transmission power control** based on network conditions
 - **Distance-based performance analysis** with throughput optimization
 
 ### Data Collection & Analysis
+
 - **Comprehensive metrics**: Position, distance, throughput, transmission power
-- **1,500+ data points** collected over 50-second simulation
+- **~1,600 data points** collected over 50-second simulation (200 intervals × 8 stations)
 - **CSV export format** for further analysis and visualization
 - **Performance statistics**: Average DL/UL throughput, distance ranges
 - **Real-time visualization** support with network topology animation
@@ -86,22 +92,25 @@ The script will automatically:
 ## Files Description
 
 ### Core Simulation Files
+
 - **`wifi_network_simulation.cc`**: Main C++ NS3 simulation with 8 mobile stations
 - **`wifi_data_structures.h`**: Shared data structures for C++/Python communication
 - **`wifi_python_bindings.cc`**: Pybind11 bindings for NS3-AI interface
 
 ### Python Analysis Scripts
+
 - **`wifi_analysis_and_control.py`**: Main Python script with adaptive control algorithms
 - **`wifi_network_visualization.py`**: Network topology visualization and animation
 
 ### Build & Deployment
+
 - **`CMakeLists.txt`**: NS3 build configuration with proper library linking
 - **`run.sh`**: Automated deployment, build, and execution script
-- **`Makefile`**: Alternative build system for development workflows
 
 ## Integration with NS3-AI
 
 This example follows NS3-AI best practices:
+
 - Uses standard `ns3ai_utils.Experiment` for communication management
 - Follows NS3 examples directory structure (`contrib/ai/examples/`)
 - Integrates with NS3's CMake build system
@@ -113,16 +122,19 @@ This example follows NS3-AI best practices:
 After successful execution, the following files are generated:
 
 ### Data Files
+
 - **`toy_data.csv`**: Complete dataset with columns:
-  - `time`: Simulation timestamp
+  - `now_sec`: Simulation timestamp (seconds)
   - `sta_id`: Station identifier (0-7)
-  - `pos_x`, `pos_y`: Station coordinates
-  - `distance`: Distance from AP to station
-  - `dl_throughput`: Downlink throughput (Mbps)
-  - `ul_throughput`: Uplink throughput (Mbps)
-  - `ap_tx_power`: Current AP transmission power (dBm)
+  - `pos_x`, `pos_y`: Station coordinates (meters)
+  - `distance`: Distance from AP to station (meters)
+  - `dl_tp`: Downlink throughput (Mbps)
+  - `ul_tp`: Uplink throughput (Mbps)
+  - `get_ApTx`: Current AP transmission power before adaptation (dBm)
+  - `set_ApTx`: New AP transmission power after adaptive control (dBm)
 
 ### Visualization Files (Optional)
+
 - **`sta_animation.gif`**: Network topology animation showing station movement
 
 ## Troubleshooting
@@ -130,6 +142,7 @@ After successful execution, the following files are generated:
 ### Common Issues
 
 1. **Virtual Environment Not Found**
+
    ```bash
    # Replace <venv_name> with the name in venv_name.txt (e.g., EHRL)
    source ../<venv_name>/bin/activate
@@ -137,6 +150,7 @@ After successful execution, the following files are generated:
    ```
 
 2. **NS3 Build Errors**
+
    ```bash
    cd ../ns-allinone-3.44/ns-3.44
    ./ns3 configure --enable-examples --enable-tests
@@ -181,14 +195,16 @@ python contrib/ai/examples/wifi-simulation/wifi_analysis_and_control.py
 ### Customizing Simulation Parameters
 
 Edit `wifi_network_simulation.cc`:
+
 - `g_nStas`: Number of stations (default: 8)
 - `g_totalTime`: Simulation duration (default: 50s)
 - `g_interval`: Reporting interval (default: 0.25s)
-- `g_init_distance`: Initial station placement radius (default: 0.5m)
+- `g_init_distance`: Initial station placement radius (default: 1.5m)
 
 ### Modifying Adaptive Algorithms
 
 Edit `wifi_analysis_and_control.py`:
+
 - Transmission power control logic
 - Throughput analysis algorithms
 - Data processing and export formats
@@ -196,6 +212,7 @@ Edit `wifi_analysis_and_control.py`:
 ### Custom Visualizations
 
 Use `wifi_network_visualization.py` as a starting point for:
+
 - Real-time network topology plots
 - Performance heatmaps
 - Custom animation styles

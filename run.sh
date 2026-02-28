@@ -14,7 +14,7 @@
 #
 # Usage: ./run.sh (must be run from NS3-first-WiFi-test directory)
 
-set -e  # Exit immediately if any command fails
+set -e # Exit immediately if any command fails
 
 echo "============================================"
 echo "WiFi Network Simulation Example - Single Run"
@@ -48,9 +48,9 @@ echo "Step 1: Deploying WiFi simulation example..."
 echo "============================================="
 
 # Define source and destination directories
-REPO_DIR="."  # Current directory
-NS3_DIR="../ns-allinone-3.44/ns-3.44/contrib/ai/examples"  # NS3 examples location
-DEST_DIR="$NS3_DIR/wifi-simulation"  # Our WiFi example destination
+REPO_DIR="."                                              # Current directory
+NS3_DIR="../ns-allinone-3.44/ns-3.44/contrib/ai/examples" # NS3 examples location
+DEST_DIR="$NS3_DIR/wifi-simulation"                       # Our WiFi example destination
 
 # Create destination directory if it doesn't exist
 echo "Creating destination directory: $DEST_DIR"
@@ -72,9 +72,9 @@ echo "Updating parent CMakeLists.txt to include wifi-simulation subdirectory..."
 # Check if our subdirectory is already added
 if ! grep -q "add_subdirectory(wifi-simulation)" "$CMAKE_FILE"; then
     # Add our subdirectory to the parent CMakeLists.txt
-    echo "" >> "$CMAKE_FILE"
-    echo "# WiFi Network Simulation example" >> "$CMAKE_FILE"
-    echo "add_subdirectory(wifi-simulation)" >> "$CMAKE_FILE"
+    echo "" >>"$CMAKE_FILE"
+    echo "# WiFi Network Simulation example" >>"$CMAKE_FILE"
+    echo "add_subdirectory(wifi-simulation)" >>"$CMAKE_FILE"
     echo "Parent CMakeLists.txt updated successfully!"
 else
     echo "wifi-simulation subdirectory already added to parent CMakeLists.txt."
@@ -93,7 +93,7 @@ echo "=================================================="
 if [[ -f "../NS3-NS3AI--installation-and-tests/venv_name.txt" ]]; then
     VENV_NAME=$(cat ../NS3-NS3AI--installation-and-tests/venv_name.txt)
     echo "Using virtual environment: $VENV_NAME"
-    
+
     # Verify the virtual environment exists
     if [ ! -d "../$VENV_NAME" ]; then
         echo "Error: Virtual environment '$VENV_NAME' not found at ../$VENV_NAME"
@@ -104,7 +104,7 @@ else
     # Use default environment name if file not found
     VENV_NAME="EHRL"
     echo "Using default virtual environment: $VENV_NAME"
-    
+
     if [ ! -d "../$VENV_NAME" ]; then
         echo "Error: Virtual environment '$VENV_NAME' not found at ../$VENV_NAME"
         echo "Please run the NS3-NS3AI installation first or create the environment manually."
@@ -156,7 +156,7 @@ EXAMPLE_DIR="contrib/ai/examples/wifi-simulation"
 if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; then
     echo "Changing to WiFi simulation example directory..."
     cd "$EXAMPLE_DIR"
-    
+
     # Execute the Python script from the example directory
     # This will:
     # 1. Start the NS3 WiFi C++ simulation in the background
@@ -166,14 +166,14 @@ if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; 
     # 5. Export data for visualization and analysis
     echo "Starting WiFi simulation..."
     python3 wifi_analysis_and_control.py
-    
+
     # Check if simulation completed and data was generated
     if [ -f "toy_data.csv" ]; then
         echo ""
         echo "WiFi simulation completed successfully!"
         echo "Data exported to toy_data.csv"
-        echo "Data points collected: $(wc -l < toy_data.csv)"
-        
+        echo "Data points collected: $(wc -l <toy_data.csv)"
+
         # Optional: Run visualization if requested
         echo ""
         echo "Would you like to generate WiFi network topology animation? (y/n)"
@@ -188,7 +188,7 @@ if [ -d "$EXAMPLE_DIR" ] && [ -f "$EXAMPLE_DIR/wifi_analysis_and_control.py" ]; 
     else
         echo "Warning: No simulation data file found. Check simulation logs for issues."
     fi
-    
+
     # Return to NS3 root directory
     cd ../../../..
 else
